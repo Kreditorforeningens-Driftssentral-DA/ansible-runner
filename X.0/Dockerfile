@@ -4,7 +4,7 @@ FROM alpine:${ALPINE_VERSION:-latest}
 RUN set -x && \
     apk add --no-cache --virtual .build-deps gcc build-base \
     linux-headers ca-certificates python3-dev libffi-dev libressl-dev && \
-    apk add --no-cache \
+    apk add --no-cache --virtual .required \
     python3 py3-pip openssh && \
     pip3 install --upgrade pip && \
     pip3 install ansible argcomplete && \
