@@ -5,7 +5,7 @@ RUN set -x && \
     apk add --no-cache --virtual .build-deps gcc build-base \
     linux-headers ca-certificates python3-dev libffi-dev libressl-dev && \
     apk add --no-cache --virtual .required \
-    python3 py3-pip openssh git && \
+    python3 py3-pip openssh dumb-init git && \
     pip3 install --upgrade pip && \
     pip3 install ansible argcomplete && \
     apk del .build-deps && rm -rf /var/cache/apk/*
@@ -28,5 +28,6 @@ ENV ANSIBLE_INVENTORY=/ansible/hosts \
 WORKDIR /ansible
 USER ansible
 
-ENTRYPOINT ["/usr/bin/env"]
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["ansible-playbook", "--version"]
